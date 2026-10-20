@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniOS — The Universal Digital Workspace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090d16',
+                        cardBg: 'rgba(17, 24, 39, 0.75)',
+                        cyberCyan: '#00f2fe',
+                        cyberBlue: '#4facfe',
+                        accentGlow: 'rgba(0, 242, 254, 0.15)'
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(0, 242, 254, 0.25)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel {
+            background: rgba(13, 20, 35, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 254, 0.12);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 242, 254, 0.3);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #090d16; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- App Wrapper -->
+    <div id="app" class="flex h-screen w-screen overflow-hidden">
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 glass-panel border-r border-slate-800 flex flex-col z-30 transition-all duration-300">
+            <div class="p-4 flex items-center justify-between border-b border-slate-800/80">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-neon">
+                        <i class="fa-solid fa-cube text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 text-lg">OmniOS</h1>
+                        <p class="text-xs text-slate-400">Universal Workspace</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+                <a href="#" onclick="switchTab('dashboard')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 transition group" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-pie w-6 text-center mr-2"></i> Command Center
+                </a>
+                <a href="#" onclick="switchTab('search')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="search">
+                    <i class="fa-solid fa-magnifying-glass w-6 text-center mr-2"></i> Universal Search
+                </a>
+                <a href="#" onclick="switchTab('vault')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="vault">
+                    <i class="fa-solid fa-book-bookmark w-6 text-center mr-2"></i> Knowledge Vault
+                </a>
+                <a href="#" onclick="switchTab('files')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="files">
+                    <i class="fa-solid fa-folder-open w-6 text-center mr-2"></i> Files & Docs
+                </a>
+                <a href="#" onclick="switchTab('code')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="code">
+                    <i class="fa-solid fa-code w-6 text-center mr-2"></i> Code Studio
+                </a>
+                <a href="#" onclick="switchTab('projects')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="projects">
+                    <i class="fa-solid fa-diagram-project w-6 text-center mr-2"></i> Projects
+                </a>
+                <a href="#" onclick="switchTab('learning')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="learning">
+                    <i class="fa-solid fa-graduation-cap w-6 text-center mr-2"></i> Learning Resources
+                </a>
+                <a href="#" onclick="switchTab('productivity')" class="nav-link flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 hover:text-white transition group" data-tab="productivity">
+                    <i class="fa-solid fa-bolt w-6 text-center mr-2"></i> Productivity
+                </a>
+            </nav>
+
+            <!-- Sidebar Footer / Voice & Status -->
+            <div class="p-3 border-t border-slate-800/80 space-y-2">
+                <button onclick="toggleVoiceControl()" id="voiceBtn" class="w-full flex items-center justify-center space-x-2 py-2 px-3 rounded-lg bg-slate-800/60 hover:bg-slate-700 text-xs font-medium text-slate-300 transition border border-slate-700/50">
+                    <i class="fa-solid fa-microphone text-cyan-400"></i>
+                    <span id="voiceStatusText">Voice Command: Off</span>
+                </button>
+                <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+                    <span>System Status</span>
+                    <span class="flex items-center text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-1.5 animate-pulse"></span> Optimal</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden bg-gradient-to-br from-darkBg via-slate-900 to-indigo-950">
+            
+            <!-- Top Header Bar -->
+            <header class="h-16 glass-panel border-b border-slate-800 flex items-center justify-between px-6 z-20">
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white md:hidden">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                    <h2 id="currentModuleName" class="text-xl font-semibold tracking-wide text-white">Command Center</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Quick Search Bar -->
+                    <div class="relative hidden sm:block">
+                        <i class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                        <input type="text" placeholder="Quick search workspace..." onkeydown="handleQuickSearch(event)" class="bg-slate-900/80 border border-slate-700/60 rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 w-64 transition">
+                    </div>
+                    <!-- System Time -->
+                    <div id="systemClock" class="text-xs font-mono text-cyan-400 bg-cyan-950/40 px-3 py-1.5 rounded-lg border border-cyan-500/20">
+                        12:00:00 PM
+                    </div>
+                    <div id="backendStatus" title="Backend connection status" class="hidden md:block text-[10px] font-mono text-slate-400">Backend: Checking…</div>
+                </div>
+            </header>
+
+            <!-- Dynamic Tab Content Container -->
+            <div id="contentArea" class="flex-1 overflow-y-auto p-6 relative">
+                
+                <!-- ==================== MODULE 1: COMMAND CENTER ==================== -->
+                <div id="tab-dashboard" class="tab-content space-y-6">
+                    <!-- Welcome Hero Banner -->
+                    <div class="glass-panel p-6 rounded-2xl relative overflow-hidden border border-cyan-500/20 shadow-glass">
+                        <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-md border border-cyan-500/30">OmniOS Core v2.6</span>
+                                <h3 class="text-2xl font-bold text-white mt-2">Welcome back to your Universal Workspace</h3>
+                                <p class="text-sm text-slate-300 mt-1">All systems active. Local persistent storage is synced and secured.</p>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button onclick="switchTab('vault')" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold rounded-xl text-sm transition shadow-neon">
+                                    <i class="fa-solid fa-plus mr-1.5"></i> New Note
+                                </button>
+                                <button onclick="switchTab('code')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-sm transition border border-slate-700">
+                                    <i class="fa-solid fa-code mr-1.5"></i> Code Studio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metric Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium uppercase">Knowledge Notes</p>
+                                <h4 id="statNotesCount" class="text-2xl font-bold text-white mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium uppercase">Stored Files</p>
+                                <h4 id="statFilesCount" class="text-2xl font-bold text-white mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-xl">
+                                <i class="fa-solid fa-folder"></i>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium uppercase">Active Projects</p>
+                                <h4 id="statProjectsCount" class="text-2xl font-bold text-white mt-1">0</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl">
+                                <i class="fa-solid fa-diagram-project"></i>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400 font-medium uppercase">Storage Used</p>
+                                <h4 id="statStorageUsed" class="text-2xl font-bold text-white mt-1">0 KB</h4>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl">
+                                <i class="fa-solid fa-hard-drive"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity & Quick Actions -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Recent Notes -->
+                        <div class="glass-panel p-5 rounded-2xl lg:col-span-2 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-white flex items-center"><i class="fa-solid fa-clock-rotate-left mr-2 text-cyan-400"></i> Recent Notes</h4>
+                                <button onclick="switchTab('vault')" class="text-xs text-cyan-400 hover:underline">View All</button>
+                            </div>
+                            <div id="dashRecentNotes" class="space-y-2">
+                                <p class="text-xs text-slate-500 italic">No notes created yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="glass-panel p-5 rounded-2xl space-y-4">
+                            <h4 class="font-semibold text-white flex items-center"><i class="fa-solid fa-bolt mr-2 text-cyan-400"></i> Quick Actions</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="switchTab('vault'); openNewNoteModal();" class="p-3 bg-slate-800/60 hover:bg-slate-700/80 border border-slate-700/50 rounded-xl text-left transition flex flex-col justify-between h-20">
+                                    <i class="fa-solid fa-pen-to-square text-cyan-400 text-base"></i>
+                                    <span class="text-xs font-medium text-slate-200">New Note</span>
+                                </button>
+                                <button onclick="switchTab('files');" class="p-3 bg-slate-800/60 hover:bg-slate-700/80 border border-slate-700/50 rounded-xl text-left transition flex flex-col justify-between h-20">
+                                    <i class="fa-solid fa-cloud-arrow-up text-blue-400 text-base"></i>
+                                    <span class="text-xs font-medium text-slate-200">Upload File</span>
+                                </button>
+                                <button onclick="switchTab('code');" class="p-3 bg-slate-800/60 hover:bg-slate-700/80 border border-slate-700/50 rounded-xl text-left transition flex flex-col justify-between h-20">
+                                    <i class="fa-solid fa-file-code text-indigo-400 text-base"></i>
+                                    <span class="text-xs font-medium text-slate-200">Code Snippet</span>
+                                </button>
+                                <button onclick="switchTab('productivity');" class="p-3 bg-slate-800/60 hover:bg-slate-700/80 border border-slate-700/50 rounded-xl text-left transition flex flex-col justify-between h-20">
+                                    <i class="fa-solid fa-stopwatch text-emerald-400 text-base"></i>
+                                    <span class="text-xs font-medium text-slate-200">Focus Timer</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 2: UNIVERSAL SEARCH ==================== -->
+                <div id="tab-search" class="tab-content space-y-6 hidden">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-magnifying-glass mr-2 text-cyan-400"></i> Universal Search</h3>
+                        <p class="text-xs text-slate-400">Search instantly across all notes, files, code snippets, projects, and learning resources stored in your workspace.</p>
+                        <div class="relative">
+                            <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                            <input type="text" id="universalSearchInput" oninput="performUniversalSearch()" placeholder="Type to search all records..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition shadow-inner">
+                        </div>
+                    </div>
+                    <div id="searchResultsContainer" class="space-y-3">
+                        <p class="text-xs text-slate-500 text-center py-8">Enter a keyword above to begin searching your workspace.</p>
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 3: KNOWLEDGE VAULT ==================== -->
+                <div id="tab-vault" class="tab-content space-y-6 hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-book-bookmark mr-2 text-cyan-400"></i> Personal Knowledge Vault</h3>
+                            <p class="text-xs text-slate-400">Create, edit, organize, and search your personal notes and documentation.</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="exportVaultData()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 transition">
+                                <i class="fa-solid fa-download mr-1"></i> Export Vault
+                            </button>
+                            <button onclick="openNoteModal()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-semibold transition shadow-neon">
+                                <i class="fa-solid fa-plus mr-1"></i> New Note
+                            </button>
+                        </div>
+                    </div>
+                    <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Rendered Notes -->
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 4: FILES & DOCS ==================
